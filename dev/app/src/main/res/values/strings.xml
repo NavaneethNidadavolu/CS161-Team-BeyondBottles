@@ -1,12 +1,32 @@
 <resources>
-    <string name="app_name">BeyondBottles</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="app_name">Alcohol Rehab</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="post">Create a Post</string>
+    <string name="publish">Publish</string>
+    <string name="create_a_question_hint">Ask or share any useful information with your community </string>
+
+    <string name="sample_question">Where can I find good gym in the radius of 5Km around the Byrassandra Lake?</string>
+    <string name="sample_question_description">How can I proceed with the alcohol rehab? Any guidance or please share your experiences</string>
+
+    <string name="sample_user_name">Bhargav Bvs</string>
+    <string name="sample_time">12 hours ago</string>
+    <string name="sample_user_reply">Hey MG Road is a ver good place to hangout on Weekends. You have a lot to look out there!</string>
+
+    <string name="response_hint">Add a response</string>
+
+    <string name="menu_search">Search</string>
+    <string name="menu_leaderboard">Leaderboard</string>
+    <string name="menu_topicwise">Topic wise questions</string>
+    <string name="menu_subscribe">Subscribe</string>
+    <string name="menu_usage">How to best use</string>
+    <string name="menu_share">Share with a friend</string>
+    <string name="menu_rateus">Rate the app</string>
+    <string name="menu_chat">Talk to us on WhatsApp</string>
+    <string name="menu_logout">Logout</string>
+
+    <string name="during_rehab">During Rehab</string>
+    <string name="before_rehab">Before Rehab</string>
+    <string name="after_rehab">After Rehab</string>
+    <string name="family_help">Family Help</string>
+    <string name="empty"></string>
 </resources>

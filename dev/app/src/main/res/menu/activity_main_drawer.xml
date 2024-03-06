@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/group1">
+
+        <item
+            android:id="@+id/nav_feed"
+            android:icon="@drawable/feed"
+            android:title="Daily Feed" />
+
+        <item
+            android:id="@+id/nav_before_rehab"
+            android:icon="@drawable/recovery"
+            android:title="Before Rehab" />
+
+        <item
+            android:id="@+id/nav_during_rehab"
+            android:icon="@drawable/recovery1"
+            android:title="During Rehab" />
+
+        <item
+            android:id="@+id/nav_after_rehab"
+            android:icon="@drawable/recovery2"
+            android:title="After Rehab" />
+
+        <item
+            android:id="@+id/nav_family_help"
+            android:icon="@drawable/family"
+            android:title="Family Help" />
+
+        <item
+            android:id="@+id/nav_leaderboard"
+            android:icon="@drawable/leaderboard"
+            android:title="Leaderboard" />
+
+        <item
+            android:id="@+id/nav_memes"
+            android:icon="@drawable/memes"
+            android:title="Motivation and Memes" />
+
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_baseline_share_24"
+            android:title="Share the App" />
+
+        <item
+            android:id="@+id/rate_us"
+            android:icon="@drawable/rate"
+            android:title="@string/menu_rateus" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:checkable="false"
+            android:icon="@drawable/logout"
+            android:title="@string/menu_logout" />
+    </group>
+
+
+</menu>

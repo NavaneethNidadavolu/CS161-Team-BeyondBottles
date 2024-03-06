@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:id="@+id/cardLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:elevation="3sp"
+    app:cardPreventCornerOverlap="false"
+    android:layout_marginTop="10sp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/layoutPostedBy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/question_layout_margin_sides"
+            android:layout_marginTop="10sp"
+            android:layout_marginRight="@dimen/question_layout_margin_sides">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivUserAvatar"
+                android:layout_width="@dimen/user_profile_size"
+                android:layout_height="@dimen/user_profile_size"
+                android:src="@drawable/bvs"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/textUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="6sp"
+                android:layout_toRightOf="@+id/ivUserAvatar"
+                android:fontFamily="@font/work_sans"
+                android:text="@string/sample_user_name"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/user_name_size" />
+
+            <TextView
+                android:id="@+id/textLocality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/textUserName"
+                android:layout_marginLeft="6sp"
+                android:layout_toRightOf="@+id/textUserName"
+                android:text="Gainesville"
+                android:fontFamily="@font/work_sans"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textCreatedAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textUserName"
+                android:layout_alignLeft="@+id/textUserName"
+                android:fontFamily="@font/work_sans"
+                android:layout_marginTop="2sp"
+                android:text="@string/sample_time"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12.3sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layoutPostedBy"
+            android:fontFamily="@font/work_sans"
+            android:layout_marginLeft="@dimen/question_layout_margin_sides"
+            android:layout_marginTop="4sp"
+            android:layout_marginRight="@dimen/question_layout_margin_sides">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layoutQuestion"
+            android:layout_marginLeft="@dimen/question_layout_margin_sides"
+            android:layout_marginTop="1sp"
+            android:layout_marginRight="@dimen/question_layout_margin_sides">
+
+            <TextView
+                android:id="@+id/textQuestionBody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6sp"
+                android:autoLink="web"
+                android:ellipsize="end"
+                android:fontFamily="@font/work_sans"
+                android:lineSpacingExtra="2sp"
+                android:longClickable="true"
+                android:maxLines="6"
+                android:text="@string/sample_question_description"
+                android:textColor="@color/black"
+                android:textColorLink="@color/colorAccent"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutSeperator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layoutDescription"
+            android:layout_marginLeft="@dimen/question_layout_margin_sides"
+            android:layout_marginTop="8sp"
+            android:layout_marginRight="@dimen/question_layout_margin_sides">
+
+            <View
+                android:id="@+id/action_divider"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#c0c0c0" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layoutSeperator"
+            android:layout_marginLeft="@dimen/question_layout_margin_sides"
+            android:layout_marginTop="5sp"
+            android:layout_marginRight="@dimen/question_layout_margin_sides"
+            android:paddingBottom="5sp">
+
+            <ImageView
+                android:id="@+id/imageLike"
+                android:layout_width="33sp"
+                android:layout_height="33sp"
+                android:alpha="0.5"
+                android:padding="5sp"
+                android:src="@drawable/upvote1" />
+
+            <TextView
+                android:id="@+id/likesCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="4sp"
+                android:layout_toRightOf="@+id/imageLike"
+                android:paddingBottom="5sp"
+                android:text="28"
+                android:textColor="@color/textColorPrimary"
+                android:fontFamily="@font/work_sans"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/repliesCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="4sp"
+                android:layout_marginRight="3sp"
+                android:layout_toLeftOf="@+id/textReplies"
+                android:fontFamily="@font/work_sans"
+                android:paddingBottom="5sp"
+                android:text="10"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/notification_text_size" />
+
+            <TextView
+                android:id="@+id/textReplies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="4sp"
+                android:layout_marginRight="8sp"
+                android:layout_toLeftOf="@+id/imageReply"
+                android:fontFamily="@font/work_sans"
+                android:paddingBottom="5sp"
+                android:text="replies"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/notification_text_size" />
+
+            <ImageView
+                android:id="@+id/imageReply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:alpha="0.5"
+                android:paddingBottom="5sp"
+                android:src="@drawable/ic_baseline_reply_24" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

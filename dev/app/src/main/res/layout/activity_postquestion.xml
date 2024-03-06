@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ndroid="http://schemas.android.com/tools">
+
+    <View
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:background="@color/colorPrimary" />
+
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/shadow_height"
+        android:layout_below="@+id/topBar"
+        android:background="@drawable/shadow_top" />
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="@dimen/action_bar_height"
+        android:layout_height="@dimen/action_bar_height"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_arrow_back_white_24dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/action_bar_height"
+        android:layout_toRightOf="@+id/btnBack"
+        android:gravity="left|center_vertical"
+        ndroid:fontFamily="@font/work_sans"
+        android:paddingLeft="16sp"
+        android:text="@string/post"
+        android:textColor="@android:color/white"
+        android:textSize="17sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@color/colorAccentLight"
+        android:visibility="gone"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/textPublish"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/action_bar_height"
+        android:layout_alignParentRight="true"
+        android:backgroundTint="@color/colorAccent"
+        android:gravity="left|center_vertical"
+        android:padding="10dp"
+        android:text="@string/publish"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:cornerRadius="20dp"
+        ndroid:fontFamily="@font/work_sans" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/new_card"
+        android:layout_below="@+id/shadow">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="6sp"
+                android:layout_marginTop="3sp"
+                android:layout_marginRight="6sp"
+                android:layout_marginBottom="6sp"
+                android:background="@null"
+                android:clipToPadding="false"
+                android:fontFamily="@font/work_sans"
+                android:gravity="top|left"
+                android:hint="@string/create_a_question_hint"
+                android:inputType="textCapSentences|textMultiLine"
+                android:paddingLeft="12sp"
+                android:paddingTop="12sp"
+                android:paddingRight="12sp"
+                android:paddingBottom="4sp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

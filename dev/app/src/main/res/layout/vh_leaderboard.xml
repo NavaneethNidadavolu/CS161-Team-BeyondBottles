@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_16">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivUserAvatar"
+            android:layout_width="@dimen/user_profile_size"
+            android:layout_height="@dimen/user_profile_size"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/textReplierName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/ivUserAvatar"
+            android:fontFamily="@font/work_sans"
+            android:paddingStart="@dimen/padding_16"
+            android:text="@string/sample_user_name"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/font_size_14" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_toLeftOf="@+id/textRank"
+                android:src="@drawable/crown" />
+
+            <TextView
+                android:id="@+id/textRank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/work_sans"
+                android:paddingStart="@dimen/padding_10"
+                android:text="Rank 1"
+                android:textColor="@color/textColorMedium"
+                android:textSize="@dimen/font_size_10" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textReplierName"
+            android:layout_toEndOf="@id/ivUserAvatar"
+            android:fontFamily="@font/work_sans"
+            android:paddingLeft="@dimen/padding_16"
+            android:text="Score : 1678"
+            android:textColor="@color/textColorMedium"
+            android:textSize="@dimen/font_size_14" />
+    </RelativeLayout>
+
+</FrameLayout>
+

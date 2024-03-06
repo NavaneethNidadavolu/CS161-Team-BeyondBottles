@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:background="@color/navigation_bg"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/navHeaderImg"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="50dp"
+        android:contentDescription="nav_header_desc"
+        android:paddingTop="@dimen/font_size_10"
+        android:src="@drawable/artboard_1" />
+
+    <TextView
+        android:id="@+id/txtUsername"
+        android:layout_below="@+id/navHeaderImg"
+        android:layout_width="match_parent"
+        android:paddingStart="25dp"
+        android:paddingEnd="15dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Bhargav"
+        android:textSize="17dp"
+        android:fontFamily="@font/work_sans"
+        android:textColor="@color/textColorPrimary" />
+
+    <TextView
+        android:id="@+id/txtEmail"
+        android:layout_below="@+id/txtUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:paddingStart="25dp"
+        android:paddingEnd="15dp"
+        android:fontFamily="@font/work_sans"
+        android:layout_marginTop="3dp"
+        android:textSize="13dp"
+        android:text="bhargav@gmail.com" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/darker_gray" />
+
+
+</RelativeLayout>

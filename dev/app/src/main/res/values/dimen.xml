@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="user_profile_size">40sp</dimen>
+    <dimen name="user_name_size">14.3sp</dimen>
+    <dimen name="notification_text_size">13.33sp</dimen>
+
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">180dp</dimen>
+
+    <dimen name="action_bar_height">48dp</dimen>
+    <dimen name="shadow_height">4dp</dimen>
+
+    <dimen name="fab_margin">12dp</dimen>
+
+
+    <dimen name="question_layout_margin_sides">20sp</dimen>
+
+    <!-- Padding Sizes. -->
+    <dimen name="padding_2">2sp</dimen>
+    <dimen name="padding_3">3sp</dimen>
+    <dimen name="padding_4">4sp</dimen>
+    <dimen name="padding_5">5sp</dimen>
+    <dimen name="padding_6">6sp</dimen>
+    <dimen name="padding_7">7sp</dimen>
+    <dimen name="padding_8">8sp</dimen>
+    <dimen name="padding_9">9sp</dimen>
+    <dimen name="padding_10">10sp</dimen>
+    <dimen name="padding_11">11sp</dimen>
+    <dimen name="padding_12">12sp</dimen>
+    <dimen name="padding_13">13sp</dimen>
+    <dimen name="padding_14">14sp</dimen>
+    <dimen name="padding_15">15sp</dimen>
+    <dimen name="padding_16">16sp</dimen>
+    <dimen name="padding_17">17sp</dimen>
+    <dimen name="padding_18">18sp</dimen>
+    <dimen name="padding_19">19sp</dimen>
+    <dimen name="padding_20">20sp</dimen>
+
+    <!-- Font Sizes. -->
+    <dimen name="font_size_16">16sp</dimen>
+    <dimen name="font_size_15">15sp</dimen>
+    <dimen name="font_size_14">14sp</dimen>
+    <dimen name="font_size_13">13sp</dimen>
+    <dimen name="font_size_12">12sp</dimen>
+    <dimen name="font_size_11">11sp</dimen>
+    <dimen name="font_size_10">10sp</dimen>
+
+    <!--Multiple Choice Sizes -->
+    <dimen name="que_num_size">14dp</dimen>
+    <dimen name="que_tags_size">12dp</dimen>
+    <dimen name="que_size">16sp</dimen>
+    <dimen name="sol_size">15dp</dimen>
+    <dimen name="sol_heading_size">14dp</dimen>
+    <dimen name="option_font_size">16sp</dimen>
+    <dimen name="option_circular_font">14dp</dimen>
+    <dimen name="option_circle_padding">8dp</dimen>
+    <dimen name="reattempt_circle_padding">7dp</dimen>
+    <dimen name="opt_layout_margin_side_left">25dp</dimen>
+    <dimen name="opt_layout_margin_side_right">45dp</dimen>
+    <dimen name="opt_layout_margin_sides">25dp</dimen>
+    <dimen name="opt_layout_margin_top">18dp</dimen>
+    <dimen name="opt_card_elevation">2dp</dimen>
+    <dimen name="opt_card_corner_radius">10dp</dimen>
+    <dimen name="line_spacing">4dp</dimen>
+
+    <!-- Intrinsic height may vary. Use a large radius to ensure a semicircle. -->
+    <dimen name="nav_item_background_corner_radius_left">0dp</dimen>
+    <dimen name="nav_item_background_corner_radius_right">100dp</dimen>
+    <dimen name="nav_item_background_inset_left">0dp</dimen>
+    <dimen name="nav_item_background_inset_right">8dp</dimen>
+    <dimen name="nav_item_horizontal_padding">24dp</dimen>
+</resources>
