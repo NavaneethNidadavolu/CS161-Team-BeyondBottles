@@ -134,6 +134,19 @@ open class BaseActivity  : AppCompatActivity(), NavigationView.OnNavigationItemS
                 this.startActivity(intent)
                 overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
             }
+            id === R.id.nav_logout -> {
+                val sharedPref = getSharedPreferences(sharedPrefFile, MODE_PRIVATE)
+                with(sharedPref.edit()) {
+                    remove("user_name")
+                    remove("email")
+                    remove("user_id")
+                    apply()
+                }
+                val intent = Intent(applicationContext, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            }
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
