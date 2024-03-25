@@ -18,7 +18,7 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class PostQuestionActivity : AppCompatActivity() {
+class   PostQuestionActivity : AppCompatActivity() {
 
     private lateinit var btnBack: ImageView
     private lateinit var btnPost : MaterialButton
