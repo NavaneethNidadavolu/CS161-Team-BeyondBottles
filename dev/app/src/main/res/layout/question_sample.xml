@@ -51,7 +51,7 @@
                 android:layout_alignBottom="@+id/textUserName"
                 android:layout_marginLeft="6sp"
                 android:layout_toRightOf="@+id/textUserName"
-                android:text="Gainesville"
+                android:text="San Jose"
                 android:fontFamily="@font/work_sans"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp" />
@@ -142,7 +142,7 @@
                 android:layout_height="33sp"
                 android:alpha="0.5"
                 android:padding="5sp"
-                android:src="@drawable/upvote1" />
+                android:src="@drawable/unlike" />
 
             <TextView
                 android:id="@+id/likesCount"

@@ -17,7 +17,7 @@
             android:layout_alignParentTop="true" />
 
         <TextView
-            android:id="@+id/textReplierName"
+            android:id="@+id/textUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/ivUserAvatar"
@@ -55,7 +55,7 @@
             android:id="@+id/textScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textReplierName"
+            android:layout_below="@id/textUserName"
             android:layout_toEndOf="@id/ivUserAvatar"
             android:fontFamily="@font/work_sans"
             android:paddingLeft="@dimen/padding_16"

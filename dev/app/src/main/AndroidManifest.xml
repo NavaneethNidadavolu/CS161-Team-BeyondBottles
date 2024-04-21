@@ -55,6 +55,10 @@
         <activity
             android:name="com.example.alcholrehab.activities.BaseActivity"
             android:launchMode="singleTop" />
+
+        <activity
+            android:name="com.example.alcholrehab.activities.MemeActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

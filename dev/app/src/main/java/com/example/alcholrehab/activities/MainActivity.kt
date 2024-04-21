@@ -1,5 +1,6 @@
 package com.example.alcholrehab.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -22,6 +23,8 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import android.net.ConnectivityManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import android.content.SharedPreferences;
+
 
 class MainActivity : BaseActivity(){
 
@@ -30,6 +33,7 @@ class MainActivity : BaseActivity(){
     private lateinit var progressbarAnim : LottieAnimationView
     private lateinit var networkErrorAnim : LottieAnimationView
     private lateinit var createNewQuestion : FloatingActionButton
+    var userId : Int = 0
 
 
     var mAdapter : MainAdapter? = null
@@ -59,17 +63,8 @@ class MainActivity : BaseActivity(){
 
         if (mWifi!!.isConnected) {
 
-            lifecycleScope.launch {
-                    response = getFeedData()
-                    if (response.isSuccessful) {
-                        progressbarAnim.isVisible = false
-                        Log.v("feed data", response.body().toString())
-                        response.body()?.let { mAdapter!!.setData(it) }
-                    } else {
-                        progressbarAnim.isVisible = false
-                        networkErrorAnim.isVisible = true
-                    }
-            }
+            fetchData();
+
         }else {
             progressbarAnim.isVisible = false
             networkErrorAnim.isVisible = true
@@ -86,6 +81,30 @@ class MainActivity : BaseActivity(){
         }
     }
 
-    private suspend fun getFeedData()
-            = BaseProvider.api.getFeedData()
+
+    fun fetchData() {
+        var response : Response<List<QuestionsData>>
+
+        lifecycleScope.launch {
+            val sharedPref = getSharedPreferences("signInPrefs", MODE_PRIVATE)
+            userId = sharedPref.getInt("user_id", 0)
+            response = getFeedData(userId)
+            if (response.isSuccessful) {
+                progressbarAnim.isVisible = false
+                Log.v("feed data", response.body().toString())
+                response.body()?.let { mAdapter!!.setData(it) }
+            } else {
+                progressbarAnim.isVisible = false
+                networkErrorAnim.isVisible = true
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fetchData()
+    }
+
+    private suspend fun getFeedData(userid: Int)
+            = BaseProvider.api.getFeedData(userid)
 }

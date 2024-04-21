@@ -6,7 +6,8 @@ data class QuestionsData (
     val time : String,
     val question : String,
     val upvotes : Int,
-    val comments : Int
+    val comments : Int,
+    val isLiked: Boolean
 )
 
 

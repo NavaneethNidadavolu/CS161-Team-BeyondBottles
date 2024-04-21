@@ -1,28 +1,31 @@
 package com.example.alcholrehab.activities
 
 import android.content.Context
-import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
-import android.widget.*
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alcholrehab.R
-import com.example.alcholrehab.adapters.BlogAdapter
 import com.example.alcholrehab.adapters.QuestionDetailAdapter
 import com.example.alcholrehab.models.CommentsData
-import com.example.alcholrehab.models.QuestionsData
 import com.example.alcholrehab.models.SuccessModel
+import com.example.alcholrehab.network.AddCommentRequest
 import com.example.alcholrehab.network.BaseProvider
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import java.util.Optional.empty
+import kotlinx.coroutines.*
+import android.content.SharedPreferences;
+
+
 
 class QuestionDetailActivity : AppCompatActivity() {
 
@@ -60,12 +63,65 @@ class QuestionDetailActivity : AppCompatActivity() {
         btnSend = findViewById(R.id.buttonSendResponse)
         editTextResponse = findViewById(R.id.editTextResponse)
 
+        var isLiked = intent.extras!!.getBoolean("isLiked", false)
+
         textCreatedAt.text =  intent.extras!!.getString("time", "5 hours ago")
-        textUserName.text = intent.extras!!.getString("username", "Bhargav Bvs") + ","
+        textUserName.text = intent.extras!!.getString("username", "Likhith Nemani") + ","
         textQuestionBody.text = intent.extras!!.getString("question", "How to procees with alcohol rehab?")
-        likesCount.text = intent.extras!!.getString("upvotes", "15")
+        likesCount.text = intent.extras!!.getInt("upvotes").toString()
         repliesCount.text = intent.extras!!.getInt("comments").toString()
         questionid = intent.extras!!.getInt("questionid")
+
+        val upvoteButton: ImageView = findViewById(R.id.imageLike)
+
+
+        if (isLiked) {
+            upvoteButton.setImageResource(R.drawable.like)
+        } else {
+            upvoteButton.setImageResource(R.drawable.unlike)
+        }
+
+
+        upvoteButton.setOnClickListener {
+            // Call the API here
+            CoroutineScope(Dispatchers.Main).launch {
+                // Call the API here
+                val sharedPref = getSharedPreferences("signInPrefs", MODE_PRIVATE)
+                userId = sharedPref.getInt("user_id", 0)
+
+                if (isLiked) {
+                    val response = downvote(questionid, userId)
+                    upvoteButton.setImageResource(R.drawable.unlike)
+                    likesCount = findViewById(R.id.likesCount)
+                    val currentLikeCountStr = likesCount.text.toString()
+                    // Convert the String to an Int
+                    val currentLikeCount = currentLikeCountStr.toInt()
+                    // Increment the Int value by one
+                    val newLikeCount = currentLikeCount - 1
+                    // Convert the incremented Int back to a String
+                    val newLikeCountStr = newLikeCount.toString()
+                    // Set the updated like count String to the likesCount TextView
+                    likesCount.text = newLikeCountStr
+                    isLiked = false
+                } else {
+                    val response = upvote(questionid, userId)
+                    upvoteButton.setImageResource(R.drawable.like)
+                    likesCount = findViewById(R.id.likesCount)
+                    val currentLikeCountStr = likesCount.text.toString()
+                    // Convert the String to an Int
+                    val currentLikeCount = currentLikeCountStr.toInt()
+                    // Increment the Int value by one
+                    val newLikeCount = currentLikeCount + 1
+                    // Convert the incremented Int back to a String
+                    val newLikeCountStr = newLikeCount.toString()
+                    // Set the updated like count String to the likesCount TextView
+                    likesCount.text = newLikeCountStr
+                    isLiked = true
+                }
+
+                // Handle the API response here
+            }
+        }
 
         val sharedPref = this.getSharedPreferences("signInPrefs", Context.MODE_PRIVATE)
         userId = sharedPref.getInt("user_id", 0)
@@ -112,8 +168,9 @@ class QuestionDetailActivity : AppCompatActivity() {
             if (editTextResponse.text!!.length > 5){
                 if (mWifi!!.isConnected) {
                     lifecycleScope.launch {
+                        var request = AddCommentRequest(userId, questionid ,editTextResponse.text.toString())
                         commentResponse =
-                            sendCommentsData(questionid, editTextResponse.text.toString(), 1)
+                            sendCommentsData(request)
                             editTextResponse.text!!.clear()
                             if (commentResponse.isSuccessful) {
                                 Log.v("send commented data", commentResponse.body().toString())
@@ -154,7 +211,13 @@ class QuestionDetailActivity : AppCompatActivity() {
     private suspend fun getCommentsData(questionid : Int)
             = BaseProvider.api.getCommentsData(questionid)
 
+    private suspend fun upvote(questionid : Int, userid: Int)
+            = BaseProvider.api.upvote(questionid, userid)
 
-    private suspend fun sendCommentsData(questionid : Int, comment : String, userid : Int)
-        = BaseProvider.api.sendCommentData(questionid, comment, userid)
+    private suspend fun downvote(questionid : Int, userid: Int)
+            = BaseProvider.api.downvote(questionid, userid)
+
+
+    private suspend fun sendCommentsData(request: AddCommentRequest)
+        = BaseProvider.api.sendCommentData(request)
 }

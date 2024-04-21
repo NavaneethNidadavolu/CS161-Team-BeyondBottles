@@ -15,7 +15,7 @@ import java.util.*
 class BaseProvider {
     companion object {
 
-        private const val baseUrl = "https://bb-api.ddns.net";
+        private const val baseUrl = "https://4afe-2601-646-9080-2330-3555-d6af-f0d6-3a8f.ngrok-free.app";
 
         private val retrofit by lazy {
             val logging = HttpLoggingInterceptor()

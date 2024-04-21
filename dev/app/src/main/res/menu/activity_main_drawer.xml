@@ -36,20 +36,20 @@
             android:icon="@drawable/leaderboard"
             android:title="Leaderboard" />
 
-        <item
-            android:id="@+id/nav_memes"
-            android:icon="@drawable/memes"
-            android:title="Motivation and Memes" />
+<!--        <item-->
+<!--            android:id="@+id/nav_memes"-->
+<!--            android:icon="@drawable/memes"-->
+<!--            android:title="Motivation and Memes" />-->
 
-        <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/ic_baseline_share_24"
-            android:title="Share the App" />
+<!--        <item-->
+<!--            android:id="@+id/nav_share"-->
+<!--            android:icon="@drawable/ic_baseline_share_24"-->
+<!--            android:title="Share the App" />-->
 
-        <item
-            android:id="@+id/rate_us"
-            android:icon="@drawable/rate"
-            android:title="@string/menu_rateus" />
+<!--        <item-->
+<!--            android:id="@+id/rate_us"-->
+<!--            android:icon="@drawable/rate"-->
+<!--            android:title="@string/menu_rateus" />-->
 
         <item
             android:id="@+id/nav_logout"

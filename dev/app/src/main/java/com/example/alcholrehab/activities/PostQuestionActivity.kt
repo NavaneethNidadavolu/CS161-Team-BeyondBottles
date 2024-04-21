@@ -3,20 +3,22 @@ package com.example.alcholrehab.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
 import com.example.alcholrehab.R
 import com.example.alcholrehab.models.SuccessModel
 import com.example.alcholrehab.network.BaseProvider
+import com.example.alcholrehab.network.PostQuestionRequest
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 import retrofit2.Response
+
 
 class   PostQuestionActivity : AppCompatActivity() {
 
@@ -31,8 +33,9 @@ class   PostQuestionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_postquestion)
 
+
         btnBack = findViewById(R.id.btnBack)
-        btnPost =findViewById(R.id.textPublish)
+        btnPost = findViewById(R.id.textPublish)
         postText = findViewById(R.id.etQuestion)
         progressBar = findViewById(R.id.progressBar)
 
@@ -41,25 +44,34 @@ class   PostQuestionActivity : AppCompatActivity() {
         val sharedPref = this.getSharedPreferences("signInPrefs", Context.MODE_PRIVATE)
         userId = sharedPref.getInt("user_id", 0)
 
-        var questionResponse : Response<List<SuccessModel>>
+        var questionResponse: Response<List<SuccessModel>>
 
-        btnPost.setOnClickListener{
+        btnPost.setOnClickListener {
             progressBar.isVisible = true
-            if (postText.text!!.length > 10){
+            if (postText.text!!.length > 10) {
                 lifecycleScope.launch {
-                    questionResponse = postQuestionData(1, postText.text.toString())
-                    if (questionResponse.isSuccessful) {
+                    try {
+                        var request = PostQuestionRequest(userId, postText.text.toString())
+                        questionResponse = postQuestionData(request)
+                        if (questionResponse.isSuccessful) {
+                            progressBar.isVisible = false
+                            val showQueDetailed = Intent(applicationContext, MainActivity::class.java)
+                            startActivity(showQueDetailed)
+                        } else {
+                            progressBar.isVisible = false
+                            Toast.makeText(this@PostQuestionActivity, "Error: ${questionResponse.code()}", Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: Exception) {
                         progressBar.isVisible = false
-                        val showQueDetailed = Intent(applicationContext, MainActivity::class.java)
-                        startActivity(showQueDetailed)
+                        Toast.makeText(this@PostQuestionActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
-            }else{
-                Toast.makeText(this, "Post should be of atleast 10 characters", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "Post should be of at least 10 characters", Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    private suspend fun postQuestionData(userid : Int, question : String)
-            = BaseProvider.api.postQuestionData(userid, question)
+    private suspend fun postQuestionData(request: PostQuestionRequest)
+            = BaseProvider.api.postQuestionData(request)
 }

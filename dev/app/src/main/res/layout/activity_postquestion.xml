@@ -59,11 +59,33 @@
         app:cornerRadius="20dp"
         ndroid:fontFamily="@font/work_sans" />
 
+<!--    <EditText-->
+<!--        android:id="@+id/sample"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/shadow"-->
+<!--        android:importantForAutofill="noExcludeDescendants"-->
+<!--        android:hint="Enter text here" />-->
+
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Enter text here">-->
+
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:id="@+id/sample"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/new_card"
         android:layout_below="@+id/shadow">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -85,6 +107,7 @@
                 android:paddingLeft="12sp"
                 android:paddingTop="12sp"
                 android:paddingRight="12sp"
+                android:importantForAutofill="noExcludeDescendants"
                 android:paddingBottom="4sp" />
 
         </RelativeLayout>

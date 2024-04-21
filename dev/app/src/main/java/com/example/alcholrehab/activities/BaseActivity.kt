@@ -82,6 +82,15 @@ open class BaseActivity  : AppCompatActivity(), NavigationView.OnNavigationItemS
         val id = item.itemId
 
         when {
+            id === R.id.nav_feed -> {
+                drawerLayout.closeDrawer(GravityCompat.START, false)
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.putExtra("clicked", 0)
+                finish()
+                this.startActivity(intent)
+                overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+            }
             id === R.id.nav_before_rehab -> {
                 drawerLayout.closeDrawer(GravityCompat.START, false)
                 val intent = Intent(this, BlogActivity::class.java)
@@ -126,14 +135,14 @@ open class BaseActivity  : AppCompatActivity(), NavigationView.OnNavigationItemS
                 this.startActivity(intent)
                 overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
             }
-            id === R.id.nav_memes -> {
-                drawerLayout.closeDrawer(GravityCompat.START, false)
-                val intent = Intent(this, MemeActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                finish()
-                this.startActivity(intent)
-                overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
-            }
+//            id === R.id.nav_memes -> {
+//                drawerLayout.closeDrawer(GravityCompat.START, false)
+//                val intent = Intent(this, MemeActivity::class.java)
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                finish()
+//                this.startActivity(intent)
+//                overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+//            }
             id === R.id.nav_logout -> {
                 val sharedPref = getSharedPreferences(sharedPrefFile, MODE_PRIVATE)
                 with(sharedPref.edit()) {

@@ -16,22 +16,49 @@ interface ApiClient {
                                 @Field("session_id") session_id : String): Response<QuestionModel>
 
     @GET("/questions")
-    suspend fun getFeedData(): Response<List<QuestionsData>>
+    suspend fun getFeedData(@Query("userid") userid : Int): Response<List<QuestionsData>>
 
-    @POST("/getcomments")
+    @GET("/getcomments")
     suspend fun getCommentsData(@Query("questionid") questionid : Int): Response<List<CommentsData>>
 
+    @GET("/leaderboard")
+    suspend fun leaderboard(): Response<List<LeadershipModel>>
+
+    @GET("/getblogs")
+    suspend fun getBlogs(@Query("type") type : String): Response<List<BlogItem>>
+
     @POST("/addcomment")
-    suspend fun sendCommentData(@Query("questionid") questionid : Int,
-                                @Query("comment") comment : String,
-                                @Query("userid") userid : Int): Response<List<SuccessModel>>
+    suspend fun sendCommentData(@Body request: AddCommentRequest): Response<List<SuccessModel>>
+
+    @POST("/upvote")
+    suspend fun upvote(@Query("questionid") questionid : Int,
+                       @Query("userid") userid : Int): Response<List<SuccessModel>>
+
+    @POST("/downvote")
+    suspend fun downvote(@Query("questionid") questionid : Int,
+                       @Query("userid") userid : Int): Response<List<SuccessModel>>
 
     @POST("/register")
     suspend fun registerNewUser(@Query("username") username : String,
                                 @Query("email") email : String,
                                 @Query("password") password : String) : Response<List<UserModel>>
 
+    @POST("/login")
+    suspend fun login(@Query("username") username : String,
+                      @Query("password") password : String) : Response<List<UserModel>>
+
     @POST("/addquestion")
-    suspend fun postQuestionData(@Query("userid") userid : Int,
-                                 @Query("question") question : String): Response<List<SuccessModel>>
+    suspend fun postQuestionData(@Body request: PostQuestionRequest): Response<List<SuccessModel>>
 }
+
+data class PostQuestionRequest(
+    val userid: Int,
+    val question: String
+)
+
+data class AddCommentRequest(
+    val userid: Int,
+    val questionid: Int,
+    var comment: String
+)
+

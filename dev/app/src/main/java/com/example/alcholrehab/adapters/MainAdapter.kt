@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>(), Serializ
         val textCreatedAt : TextView = itemView.findViewById(R.id.textCreatedAt)
         val ivUserAvatar : ShapeableImageView = itemView.findViewById(R.id.ivUserAvatar)
         val layoutQuestion : TextView = itemView.findViewById(R.id.textQuestionBody)
+        val upvoteButton: ImageView = itemView.findViewById(R.id.imageLike)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -45,6 +47,11 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>(), Serializ
         }else{
             holder.repliesCount.text = currentItem.comments.toString()
         }
+        if (currentItem.isLiked) {
+            holder.upvoteButton.setImageResource(R.drawable.like)
+        } else {
+            holder.upvoteButton.setImageResource(R.drawable.unlike)
+        }
 
         holder.textCreatedAt.text = currentItem.time
 
@@ -58,6 +65,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>(), Serializ
             showQueDetailed.putExtra("upvotes", currentItem.upvotes)
             showQueDetailed.putExtra("comments", currentItem.comments)
             showQueDetailed.putExtra("time", currentItem.time)
+            showQueDetailed.putExtra("isLiked", currentItem.isLiked)
             context.startActivity(showQueDetailed)
         }
     }

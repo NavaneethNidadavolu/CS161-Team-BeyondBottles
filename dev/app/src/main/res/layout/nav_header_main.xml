@@ -25,7 +25,7 @@
         android:paddingEnd="15dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="Bhargav"
+        android:text="Likhith Nemani"
         android:textSize="17dp"
         android:fontFamily="@font/work_sans"
         android:textColor="@color/textColorPrimary" />
@@ -41,7 +41,7 @@
         android:fontFamily="@font/work_sans"
         android:layout_marginTop="3dp"
         android:textSize="13dp"
-        android:text="bhargav@gmail.com" />
+        android:text="likhith.nemani@sjsu.edu" />
 
     <View
         android:layout_width="match_parent"

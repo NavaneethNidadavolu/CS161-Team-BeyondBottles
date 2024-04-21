@@ -11,36 +11,36 @@
         android:layout_height="wrap_content"
         android:background="@color/colorWhite">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivUserAvatar"
-            android:layout_width="90sp"
-            android:layout_height="90sp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="25sp"
-            android:src="@drawable/bvs" />
+<!--        <com.google.android.material.imageview.ShapeableImageView-->
+<!--            android:id="@+id/ivUserAvatar"-->
+<!--            android:layout_width="90sp"-->
+<!--            android:layout_height="90sp"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginTop="25sp"-->
+<!--            android:src="@drawable/bvs" />-->
 
-        <EditText
-            android:id="@+id/textUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ivUserAvatar"
-            android:layout_marginLeft="10sp"
-            android:layout_marginTop="25sp"
-            android:background="@null"
-            android:text="@string/sample_user_name"
-            android:textColor="@color/colorAccent"
-            android:textSize="30sp"/>
+<!--        <EditText-->
+<!--            android:id="@+id/textUserName"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/ivUserAvatar"-->
+<!--            android:layout_marginLeft="10sp"-->
+<!--            android:layout_marginTop="25sp"-->
+<!--            android:background="@null"-->
+<!--            android:text="@string/sample_user_name"-->
+<!--            android:textColor="@color/colorAccent"-->
+<!--            android:textSize="30sp"/>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textUserName"
-            android:layout_below="@+id/textUserName"
-            android:layout_marginBottom="20sp"
-            android:layout_marginTop="10sp"
-            android:text="cv raman nagar"
-            android:textColor="#161616"
-            />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignLeft="@+id/textUserName"-->
+<!--            android:layout_below="@+id/textUserName"-->
+<!--            android:layout_marginBottom="20sp"-->
+<!--            android:layout_marginTop="10sp"-->
+<!--            android:text="cv raman nagar"-->
+<!--            android:textColor="#161616"-->
+<!--            />-->
     </RelativeLayout>
 
     <LinearLayout
