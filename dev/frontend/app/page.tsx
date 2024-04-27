@@ -14,10 +14,10 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
-
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { useEffect } from "react"
 
 export default function Login() {
 
@@ -38,16 +38,66 @@ export default function Login() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
-    router.push("/dashboard");
+  useEffect(() => {  
+    console.log(localStorage.getItem('login'));
+    if (localStorage.getItem('login')) {
+      router.push("/dashboard");
+    }
+  }
+  ,[]);
+
+  // function onSubmit(data: z.infer<typeof FormSchema>) {
+  //   toast({
+  //     title: "You submitted the following values:",
+  //     description: (
+  //       <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+  //         <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+  //       </pre>
+  //     ),
+  //   })
+  //   router.push("/dashboard");
+  // }
+
+  const onSubmit = async () => {
+    const email = form.getValues('username');
+    const password = form.getValues('password');
+    
+    const url = `http://127.0.0.1:5001/getadmin?email=${email}&password=${password}`;
+
+    console.log(url);
+    
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      localStorage.setItem('login', JSON.stringify(data));
+      toast({
+        title: "Login Success !",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      })
+      router.push("/dashboard");
+    } else {
+      const data = await response.json();
+      console.log(data);
+      console.log('Login failed.');
+      toast({
+        title: "Login Failed !",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      })
+    }
   }
 
   return (
@@ -61,7 +111,7 @@ export default function Login() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input placeholder="email@gmail.com" {...field} />
                   </FormControl>

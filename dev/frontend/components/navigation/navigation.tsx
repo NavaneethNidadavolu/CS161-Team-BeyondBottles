@@ -12,6 +12,12 @@ import { Button } from "@/components/ui/button";
 
 
 export default function Navigation() {
+
+    const logout = () => {
+        localStorage.removeItem('login');
+        window.location.href = '/';
+    }
+    
     return (
         <div className="p-4">
             <div className="flex flex-row justify-between">
@@ -36,7 +42,7 @@ export default function Navigation() {
                     </NavigationMenu>
                 </div>
                 <div>
-                    <Button>Logout</Button>
+                    <Button onClick={() => logout()}>Logout</Button>
                 </div>
             </div>
         </div>

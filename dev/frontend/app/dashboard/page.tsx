@@ -6,8 +6,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import Link from "next/link";
 
+import { useAuth } from "../auth";
+
 
 export default function Dashboard() {
+
+    useAuth();
 
     return (
         <main>

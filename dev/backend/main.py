@@ -3,6 +3,7 @@ import json
 import flask
 from flask import Flask, request, jsonify
 import os
+from flask_cors import CORS
 
 # from connection import con_pool
 from dotenv import load_dotenv
@@ -14,6 +15,7 @@ from datetime import datetime
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+CORS(app)
 
 load_dotenv()
 
@@ -688,6 +690,145 @@ def get_blogs_by_type():
         print("Error:", error)
         return jsonify({'error': 'Failed to retrieve blogs by type'}), 500
 
+
+@app.route('/addadmin', methods=['POST'])
+def add_admin():
+    try:
+        # Get admin data from the request
+        username = request.json.get('username')
+        email = request.json.get('email')
+        password = request.json.get('password')
+
+        # Get a connection from the connection pool
+        connection, cursor = connect_to_db()
+
+        if connection is None or cursor is None:
+            raise Exception("Failed to connect to the database")
+
+        # Execute SQL query to insert admin data
+        sql_query = """
+            INSERT INTO admins (username, emailid, password)
+            VALUES (%s, %s, %s)
+            RETURNING id, username, emailid
+        """
+        cursor.execute(sql_query, (username, email, password))
+        new_admin = cursor.fetchone()
+
+        # Commit the transaction
+        connection.commit()
+
+        # Close the cursor and connection
+        cursor.close()
+        connection.close()
+
+        # Prepare the response data
+        admin_details = {
+            'id': new_admin[0],
+            'username': new_admin[1],
+            'email': new_admin[2]
+        }
+
+        return jsonify(admin_details)
+
+    except (Exception, psycopg2.Error) as error:
+        print("Error:", error)
+        return jsonify({'error': 'Failed to add admin'}), 500
+
+# Route to get all admins
+@app.route('/getadmins', methods=['GET'])
+def get_admins():
+    try:
+        # Get a connection from the connection pool
+        connection, cursor = connect_to_db()
+
+        if connection is None or cursor is None:
+            raise Exception("Failed to connect to the database")
+
+        # Execute SQL query to fetch all admins
+        cursor.execute("SELECT id, username, emailid FROM admins")
+        admins = cursor.fetchall()
+
+        # Close the cursor and connection
+        cursor.close()
+        connection.close()
+
+        # Prepare the response data
+        admins_data = []
+        for admin in admins:
+            admin_details = {
+                'id': admin[0],
+                'username': admin[1],
+                'email': admin[2]
+            }
+            admins_data.append(admin_details)
+
+        return jsonify(admins_data)
+
+    except (Exception, psycopg2.Error) as error:
+        print("Error:", error)
+        return jsonify({'error': 'Failed to retrieve admins'}), 500
+
+# Route to delete an admin by id
+@app.route('/deleteadmin/<int:admin_id>', methods=['DELETE'])
+def delete_admin(admin_id):
+    try:
+        # Get a connection from the connection pool
+        connection, cursor = connect_to_db()
+
+        if connection is None or cursor is None:
+            raise Exception("Failed to connect to the database")
+
+        # Execute SQL query to delete the admin
+        cursor.execute("DELETE FROM admins WHERE id = %s", (admin_id,))
+
+        # Commit the transaction
+        connection.commit()
+
+        # Close the cursor and connection
+        cursor.close()
+        connection.close()
+
+        return jsonify({'message': 'Admin deleted successfully'})
+
+    except (Exception, psycopg2.Error) as error:
+        print("Error:", error)
+        return jsonify({'error': 'Failed to delete admin'}), 500
+
+@app.route('/getadmin', methods=['GET'])
+def get_admin_by_email_password():
+    try:
+        # Get email and password from the request
+        email = request.args.get('email')
+        password = request.args.get('password')
+
+        # Get a connection from the connection pool
+        connection, cursor = connect_to_db()
+
+        if connection is None or cursor is None:
+            raise Exception("Failed to connect to the database")
+
+        # Execute SQL query to fetch the admin by email and password
+        cursor.execute("SELECT id, username, emailid FROM admins WHERE emailid = %s AND password = %s", (email, password))
+        admin = cursor.fetchone()
+
+        # Close the cursor and connection
+        cursor.close()
+        connection.close()
+
+        # Check if admin exists
+        if admin:
+            admin_details = {
+                'id': admin[0],
+                'username': admin[1],
+                'email': admin[2]
+            }
+            return jsonify(admin_details)
+        else:
+            return jsonify({'error': 'Admin not found'}), 404
+
+    except (Exception, psycopg2.Error) as error:
+        print("Error:", error)
+        return jsonify({'error': 'Failed to retrieve admin'}), 500
    
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001)

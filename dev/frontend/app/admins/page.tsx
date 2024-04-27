@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/dialog"
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
@@ -51,10 +51,63 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 
+import { useAuth } from "../auth";
+import { useEffect, useState } from "react";
+
+import { useRouter } from "next/navigation"
+
+
 export default function AdminsComponent() {
 
+    const [admins, setAdmins] = useState([]);
+    const [showDialog, setShowDialog] = useState(false);
+    const [userId, setUserId] = useState(-1);
+    const router = useRouter();
+
+    
+    useAuth();
+
+    var login = null;
+
+    const getAdmins = async () => {
+        const url = `http://127.0.0.1:5001/getadmins`;
+
+        console.log(url);
+        
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setAdmins(data);
+        } else {
+          const data = await response.json();
+          console.log(data);
+          console.log('Get Admins failed.');
+        }
+    };
+
+    useEffect(() => {
+
+        console.log(localStorage.getItem('login'));
+
+        login = localStorage.getItem('login');
+        if (login) {
+            setUserId(JSON.parse(login).id);
+        }
+        
+
+        getAdmins();
+
+    }, []);
+
     const FormSchema = z.object({
-        username: z.string().email(),
+        username: z.string(),
+        email: z.string().email(),
         password: z.string().min(4, {
             message: "Password must be at least 4 characters.",
         })
@@ -64,15 +117,74 @@ export default function AdminsComponent() {
         resolver: zodResolver(FormSchema),
         defaultValues: {
             username: "",
+            email: "",
             password: ""
         },
     });
 
-    function addAdmin(data: z.infer<typeof FormSchema>) {
-        toast({
+    async function addAdmin(data: z.infer<typeof FormSchema>) {
+        const url = `http://127.0.0.1:5001/addadmin`;
+    
+        console.log(url);
+
+        const body = {
+            username: form.getValues('username'),
+            email: form.getValues('email'),
+            password: form.getValues('password')
+        }
+        
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          toast({
             title: "Add Admin",
             description: "Admin Added Successfully"
-        })
+          })
+          getAdmins();
+          setShowDialog(false);
+        } else {
+          const data = await response.json();
+          console.log(data);
+          console.log('Get Admins failed.');
+          toast({
+            title: "Add Admin",
+            description: "Admin Added Failed"
+          })
+        }
+    }
+
+    const deleteAdmin = async (admin: { username: string, email: string, id: number }) => {
+        const url = `http://127.0.0.1:5001/deleteadmin/${admin.id}`;
+        
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            toast({
+                title: "Admin Deleted",
+                description: "Admin Deleted"
+            })
+            getAdmins();
+            
+        } else {
+            const data = await response.json();
+            console.log(data);
+            console.log('Delete Admin failed.');
+        }
+
 
     }
 
@@ -84,49 +196,50 @@ export default function AdminsComponent() {
                     Admins
                 </div>
                 <div>
-                    <Table>
-                        <TableCaption>List of Admins</TableCaption>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[100px]">Username</TableHead>
-                                <TableHead>Role</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell className="font-medium">INV001</TableCell>
+                <Table>
+                    <TableCaption>List of Admins</TableCaption>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[100px]">Username</TableHead>
+                            <TableHead className="w-[100px]">Role</TableHead>
+                            <TableHead>Email</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {admins.map((admin: { username: string, email: string, id: number }, index: number) => (
+                            <TableRow key={index}>
+                                <TableCell className="font-medium">{admin.username}</TableCell>
                                 <TableCell>Admin</TableCell>
+                                <TableCell>{admin.email}</TableCell>
                                 <TableCell>
-                                    <AlertDialog>
-                                        <AlertDialogTrigger>Remove Admin</AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                                <AlertDialogDescription>
-                                                    This action cannot be undone. This will permanently remove this admin.
-                                                </AlertDialogDescription>
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                <AlertDialogAction onClick={() => {
-                                                    toast({
-                                                        title: "Deleted",
-                                                        description: "Admin Deleted"
-                                                    })
-                                                }}>Continue</AlertDialogAction>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
+                                    {userId !== admin.id && (
+                                        <AlertDialog>
+                                            <AlertDialogTrigger>Remove Admin</AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        This action cannot be undone. This will permanently remove this admin.
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                    <AlertDialogAction onClick={() => deleteAdmin(admin)}>Continue</AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    )}
                                 </TableCell>
                             </TableRow>
-                        </TableBody>
-                    </Table>
+                        ))}
+                    </TableBody>
+                </Table>
                 </div>
                 <div>
                     <div className="flex flex-row justify-between w-full">
                         <div>
                             <Dialog>
-                                <DialogTrigger>Add Admin</DialogTrigger>
+                                <DialogTrigger onClick={() => setShowDialog(true)}>Add Admin</DialogTrigger>
                                 <DialogContent>
                                     <DialogHeader>
                                         <DialogTitle>Add Admin</DialogTitle>
@@ -140,7 +253,20 @@ export default function AdminsComponent() {
                                                             <FormItem>
                                                                 <FormLabel>Username</FormLabel>
                                                                 <FormControl>
-                                                                    <Input placeholder="email@gmail.com" {...field} />
+                                                                    <Input placeholder="username" {...field} />
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="email"
+                                                        render={({ field }) => (
+                                                            <FormItem>
+                                                                <FormLabel>Email</FormLabel>
+                                                                <FormControl>
+                                                                    <Input placeholder="sample@gmail.com" {...field} />
                                                                 </FormControl>
                                                                 <FormMessage />
                                                             </FormItem>
