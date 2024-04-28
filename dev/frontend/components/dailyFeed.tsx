@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import {
     Card,
     CardContent,
@@ -23,89 +21,63 @@ import {
 
 import {
     Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
 
 import { toast } from "@/components/ui/use-toast";
+import OpenPost from "./openPost";
 
-export default function DailyFeed() {
+async function getDailyFeed() {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/questions`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        cache: 'no-store'
+    });
+
+    return response
+}
+
+export default async function DailyFeed() {
+
+    const data = await (await getDailyFeed()).json()
+
+    console.log(data)
+
     return (
         <div>
             <div className="my-8 w-96">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Card Title</CardTitle>
-                        <CardDescription>Card Description</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <p>Card Content</p>
-                    </CardContent>
-                    <CardFooter>
-                        <div className="flex flex-row justify-between w-full">
-                            <div>
-                                <Dialog>
-                                    <DialogTrigger>Open</DialogTrigger>
-                                    <DialogContent>
-                                        <DialogHeader>
-                                            <DialogTitle>Are you absolutely sure?</DialogTitle>
-                                            <DialogDescription>
-                                                This action cannot be undone. This will permanently delete your account
-                                                and remove your data from our servers.
-                                                <AlertDialog>
-                                                    <AlertDialogTrigger>Delete</AlertDialogTrigger>
-                                                    <AlertDialogContent>
-                                                        <AlertDialogHeader>
-                                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                                            <AlertDialogDescription>
-                                                                This action cannot be undone. This will permanently delete your account
-                                                                and remove your data from our servers.
-                                                            </AlertDialogDescription>
-                                                        </AlertDialogHeader>
-                                                        <AlertDialogFooter>
-                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                            <AlertDialogAction>Continue</AlertDialogAction>
-                                                        </AlertDialogFooter>
-                                                    </AlertDialogContent>
-                                                </AlertDialog>
-                                            </DialogDescription>
-                                        </DialogHeader>
-                                    </DialogContent>
-                                </Dialog>
-                            </div>
-                            <div>
-                                <AlertDialog>
-                                    <AlertDialogTrigger>Delete Post</AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                            <AlertDialogDescription>
-                                                This action cannot be undone. This will permanently delete the post.
-                                            </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                            <AlertDialogAction onClick={() => {
-                                                toast({
-                                                    title: "You submitted the following values:",
-                                                    description: (
-                                                        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                                                            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-                                                        </pre>
-                                                    ),
-                                                })
-                                            }}>Continue</AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                            </div>
-                        </div>
-                    </CardFooter>
-                </Card>
+                {
+                    data.length > 0 ? data.map((post: any) => {
+                        return (
+                            <Card id={post.id} className="mb-6">
+                                <CardHeader>
+                                    <CardTitle>{post.username}</CardTitle>
+                                    <CardDescription>{post.time}</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div>
+                                        <p>{post.question}</p>
+                                        <div className="text-sm mt-4">
+                                            <p className="mb-1">{post.upvotes} Upvotes</p>
+                                            <p>{post.comments} Comments</p>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                                <CardFooter>
+                                    <div className="flex flex-row w-full">
+                                        <Dialog>
+                                            <DialogTrigger>Open</DialogTrigger>
+                                            <OpenPost post={post} />
+                                        </Dialog>
+                                    </div>
+                                </CardFooter>
+                            </Card>
+                        )
+                    }) : <p>No Posts available</p>
+                }
             </div>
-        </div>
+        </div >
     );
 }

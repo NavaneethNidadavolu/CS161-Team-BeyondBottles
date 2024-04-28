@@ -70,7 +70,7 @@ export default function AdminsComponent() {
     var login = null;
 
     const getAdmins = async () => {
-        const url = `http://127.0.0.1:5001/getadmins`;
+        const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/getadmins`;
 
         console.log(url);
         

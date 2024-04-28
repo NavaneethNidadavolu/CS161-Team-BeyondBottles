@@ -7,11 +7,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 
 import { useAuth } from "../auth";
+import { useState } from "react";
 
 
 export default function Dashboard() {
 
     useAuth();
+
+    const [pageView, setPageView] = useState("dailyFeed");
 
     return (
         <main>
@@ -21,29 +24,44 @@ export default function Dashboard() {
                     <ScrollArea className="rounded-md border p-4 w-56">
                         <p className="text-2xl font-semibold">menu</p>
                         <div className="my-6">
-                            <Link href="/"><button>Daily Feed</button></Link>
+                            <button onClick={() => {
+                                setPageView("dailyFeed");
+                            }}>Daily Feed</button>
                         </div>
                         <div className="my-6">
-                            <Link href="/"><button>Before Rehab</button></Link>
+                            <button onClick={() => {
+                                setPageView("beforeRehab");
+                            }}>Before Rehab</button>
                         </div>
                         <div className="my-6">
-                            <Link href="/"><button>During Rehab</button></Link>
+                            <button onClick={() => {
+                                setPageView("duringRehab");
+                            }}>During Rehab</button>
                         </div>
                         <div className="my-6">
-                            <Link href="/"><button>After Rehab</button></Link>
+                            <button onClick={() => {
+                                setPageView("afterRehab");
+                            }}>After Rehab</button>
                         </div>
                         <div className="my-6">
-                            <Link href="/"><button>Family Help</button></Link>
+                            <button onClick={() => {
+                                setPageView("familyHelp");
+                            }}>Family Help</button>
                         </div>
                         <div className="my-6">
-                            <Link href="/"><button>Leaderboard</button></Link>
+                            <button onClick={() => {
+                                setPageView("leaderboard");
+                            }}>Leaderboard</button>
                         </div>
                     </ScrollArea>
                 </aside>
                 <div className="flex flex-grow flex-col items-center p-10">
-                    <div>
-                        <DailyFeed />
-                    </div>
+                    {pageView === "dailyFeed" && <DailyFeed />}
+                    {pageView === "beforeRehab" && <DailyFeed />}
+                    {pageView === "duringRehab" && <DailyFeed />}
+                    {pageView === "afterRehab" && <DailyFeed />}
+                    {pageView === "familyHelp" && <DailyFeed />}
+                    {pageView === "leaderboard" && <DailyFeed />}
                 </div>
             </div>
         </main>
