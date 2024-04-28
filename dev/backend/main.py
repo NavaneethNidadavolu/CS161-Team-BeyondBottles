@@ -829,6 +829,64 @@ def get_admin_by_email_password():
     except (Exception, psycopg2.Error) as error:
         print("Error:", error)
         return jsonify({'error': 'Failed to retrieve admin'}), 500
-   
+ 
+@app.route('/deletequestion/<int:question_id>', methods=['DELETE'])
+def delete_question(question_id):
+    try:
+        connection, cursor = connect_to_db()
+
+        # Check if the question exists
+        cursor.execute("SELECT * FROM questions WHERE id = %s", (question_id,))
+        question = cursor.fetchone()
+        if question is None:
+            return jsonify({'status': 'fail', 'message': 'Question not found'}), 404
+
+        # Delete associated comments
+        cursor.execute("DELETE FROM comments WHERE question_id = %s", (question_id,))
+
+        # Delere associated likes
+        cursor.execute("DELETE FROM question_likes WHERE question_id = %s", (question_id,))
+
+        # Delete the question
+        cursor.execute("DELETE FROM questions WHERE id = %s", (question_id,))
+
+        # Commit the transaction
+        connection.commit()
+
+        # Close cursor and connection
+        cursor.close()
+        connection.close()
+
+        return jsonify({'status': 'success', 'message': 'Question and associated comments deleted successfully'}), 200
+    except (Exception, psycopg2.Error) as error:
+        print("Error:", error)
+        return jsonify({'status': 'error', 'message': 'Internal server error'}), 500
+
+@app.route('/deletecomment/<int:comment_id>', methods=['DELETE'])
+def delete_comment(comment_id):
+    try:
+        connection, cursor = connect_to_db()
+
+        # Check if the comment exists
+        cursor.execute("SELECT * FROM comments WHERE id = %s", (comment_id,))
+        comment = cursor.fetchone()
+        if comment is None:
+            return jsonify({'status': 'fail', 'message': 'Comment not found'}), 404
+
+        # Delete the comment
+        cursor.execute("DELETE FROM comments WHERE id = %s", (comment_id,))
+
+        # Commit the transaction
+        connection.commit()
+
+        # Close cursor and connection
+        cursor.close()
+        connection.close()
+
+        return jsonify({'status': 'success', 'message': 'Comment deleted successfully'}), 200
+    except (Exception, psycopg2.Error) as error:
+        print("Error:", error)
+        return jsonify({'status': 'error', 'message': 'Internal server error'}), 500
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001)
