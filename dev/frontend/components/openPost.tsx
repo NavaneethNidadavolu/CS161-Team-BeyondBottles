@@ -19,6 +19,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useEffect, useState } from "react";
+import { toast } from "./ui/use-toast";
 
 // [
 //     {
@@ -39,6 +40,7 @@ import { useEffect, useState } from "react";
 // ]
 
 interface Comment {
+    "id": number,
     "comment": string,
     "time": string,
     "username": string
@@ -47,6 +49,31 @@ interface Comment {
 async function getComments(post_id: number) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/getcomments?questionid=${post_id}`, {
         method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        cache: 'no-store'
+    });
+
+    return response
+}
+
+
+async function deletePost(post_id: number) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/deletequestion/${post_id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        cache: 'no-store'
+    });
+
+    return response
+}
+
+async function deleteComment(comment_id: number) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/deletecomment/${comment_id}`, {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -89,9 +116,36 @@ export default function OpenPost({ post }: { post: any }) {
                                             <div className="my-4">
                                                 <p><span className="text-md font-bold">{comment.username}</span> - {comment.time}</p>
                                                 <p>{comment.comment}</p>
-                                                <button onClick={() => {
-                                                    console.log("Delete comment")
-                                                }}>Delete</button>
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger>Delete</AlertDialogTrigger>
+                                                    <AlertDialogContent>
+                                                        <AlertDialogHeader>
+                                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                            <AlertDialogDescription>
+                                                                This action cannot be undone. This will permanently delete your account
+                                                                and remove your data from our servers.
+                                                            </AlertDialogDescription>
+                                                        </AlertDialogHeader>
+                                                        <AlertDialogFooter>
+                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                            <AlertDialogAction onClick={() => {
+                                                                deleteComment(comment.id).then(async (data) => {
+                                                                    let response = await data.json();
+                                                                    console.log(response);
+                                                                    toast({ title: "Comment deleted successfully" })
+                                                                    getComments(post.id).then(async (data) => {
+                                                                        let response: [Comment] = await data.json();
+                                                                        setComments(response);
+                                                                        setLoading(false);
+                                                                    });
+                                                                }).catch((error) => {
+                                                                    console.log("Error deleting Comment");
+                                                                    toast({ title: "Error occured while deleting comment." })
+                                                                });
+                                                            }} >Continue</AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                </AlertDialog>
                                             </div>
                                         )
                                     })}
@@ -107,7 +161,16 @@ export default function OpenPost({ post }: { post: any }) {
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
                                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                            <AlertDialogAction>Continue</AlertDialogAction>
+                                            <AlertDialogAction onClick={() => {
+                                                deletePost(post.id).then(async (data) => {
+                                                    let response = await data.json();
+                                                    console.log(response);
+                                                    toast({ title: "Post deleted successfully" })
+                                                }).catch((error) => {
+                                                    console.log("Error deleting post");
+                                                    toast({ title: "Error occured while deleting post." })
+                                                });
+                                            }} >Continue</AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
                                 </AlertDialog>
