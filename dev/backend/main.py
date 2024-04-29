@@ -887,6 +887,33 @@ def delete_comment(comment_id):
     except (Exception, psycopg2.Error) as error:
         print("Error:", error)
         return jsonify({'status': 'error', 'message': 'Internal server error'}), 500
+    
+
+@app.route('/deleteblog/<int:blog_id>', methods=['DELETE'])
+def delete_blog(blog_id):
+    try:
+        connection, cursor = connect_to_db()
+
+        # Check if the comment exists
+        cursor.execute("SELECT * FROM blogs WHERE id = %s", (blog_id,))
+        comment = cursor.fetchone()
+        if comment is None:
+            return jsonify({'status': 'fail', 'message': 'Blog not found'}), 404
+
+        # Delete the comment
+        cursor.execute("DELETE FROM blogs WHERE id = %s", (blog_id,))
+
+        # Commit the transaction
+        connection.commit()
+
+        # Close cursor and connection
+        cursor.close()
+        connection.close()
+
+        return jsonify({'status': 'success', 'message': 'Blog deleted successfully'}), 200
+    except (Exception, psycopg2.Error) as error:
+        print("Error:", error)
+        return jsonify({'status': 'error', 'message': 'Internal server error'}), 500
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001)
