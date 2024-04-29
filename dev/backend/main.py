@@ -173,7 +173,7 @@ def getcomments():
 
             # Execute the SQL query to retrieve comments
             sql_query = """
-                SELECT c.comment, u.username, EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - c.created_at)) / 3600 AS time
+                SELECT c.id, c.comment, u.username, EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - c.created_at)) / 3600 AS time
                 FROM comments c
                 INNER JOIN users u ON c.user_id = u.id
                 WHERE c.question_id = %s
@@ -186,7 +186,7 @@ def getcomments():
             json_data = []
             for d in data:
                 # Convert the absolute value of time to integer
-                time_hours = int(abs(d[2]))
+                time_hours = int(abs(d[3]))
 
                 if time_hours >= 24:
                     days = str(time_hours // 24)  # Calculate the number of days
@@ -194,7 +194,7 @@ def getcomments():
                 else:
                     time = str(time_hours) + ' hours ago'
 
-                json_data.append({'comment': d[0], 'username': d[1], 'time': time})
+                json_data.append({'id': d[0], 'comment': d[1], 'username': d[2], 'time': time})
 
             # Close the cursor and connection
             cursor.close()
