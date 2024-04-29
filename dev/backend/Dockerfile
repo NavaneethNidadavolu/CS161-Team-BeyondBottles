@@ -3,8 +3,8 @@ FROM python:3.8-slim
 # Set the working directory
 WORKDIR /app
 
-RUN pip install flask dotenv --no-cache-dir
-
 COPY . .
+
+RUN pip install -r requirements.txt --no-cache-dir
 
 CMD ["python", "main.py"]
