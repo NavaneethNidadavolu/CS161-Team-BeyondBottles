@@ -19,7 +19,7 @@ export default function Navigation() {
     }
     
     return (
-        <div className="p-4">
+        <div className="p-4 bg-lime-50">
             <div className="flex flex-row justify-between">
                 <div>
                     <NavigationMenu>
