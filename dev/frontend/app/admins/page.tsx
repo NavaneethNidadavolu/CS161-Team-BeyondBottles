@@ -1,7 +1,7 @@
 "use client";
 
 import Navigation from "@/components/navigation/navigation"
-
+import './page.css'
 import {
     Table,
     TableBody,
@@ -214,7 +214,7 @@ export default function AdminsComponent() {
                                 <TableCell>
                                     {userId !== admin.id && (
                                         <AlertDialog>
-                                            <AlertDialogTrigger>Remove Admin</AlertDialogTrigger>
+                                            <AlertDialogTrigger><button className="remove-button">Remove Admin</button></AlertDialogTrigger>
                                             <AlertDialogContent>
                                                 <AlertDialogHeader>
                                                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -224,7 +224,7 @@ export default function AdminsComponent() {
                                                 </AlertDialogHeader>
                                                 <AlertDialogFooter>
                                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                    <AlertDialogAction onClick={() => deleteAdmin(admin)}>Continue</AlertDialogAction>
+                                                    <AlertDialogAction onClick={() => deleteAdmin(admin)}><button className="add-button">Continue</button></AlertDialogAction>
                                                 </AlertDialogFooter>
                                             </AlertDialogContent>
                                         </AlertDialog>
@@ -239,7 +239,7 @@ export default function AdminsComponent() {
                     <div className="flex flex-row justify-between w-full">
                         <div>
                             <Dialog>
-                                <DialogTrigger onClick={() => setShowDialog(true)}>Add Admin</DialogTrigger>
+                                <DialogTrigger onClick={() => setShowDialog(true)}><button className="add-button">Add Admin</button></DialogTrigger>
                                 <DialogContent>
                                     <DialogHeader>
                                         <DialogTitle>Add Admin</DialogTitle>
@@ -287,9 +287,9 @@ export default function AdminsComponent() {
                                                     />
                                                     <DialogFooter>
                                                         <DialogClose asChild>
-                                                            <Button>Cancel</Button>
+                                                            <Button><button className="remove-button">Cancel</button></Button>
                                                         </DialogClose>
-                                                        <Button type="submit">Save changes</Button>
+                                                        <Button type="submit"><button className="add-button">Save changes</button></Button>
                                                     </DialogFooter>
                                                 </form>
                                             </Form>

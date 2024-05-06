@@ -26,6 +26,7 @@ import {
 
 import { toast } from "@/components/ui/use-toast";
 import OpenPost from "./openPost";
+import './css/dailyFeed.css';
 
 async function getDailyFeed() {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/questions`, {
@@ -68,7 +69,9 @@ export default async function DailyFeed() {
                                 <CardFooter>
                                     <div className="flex flex-row w-full">
                                         <Dialog>
-                                            <DialogTrigger>Open</DialogTrigger>
+                                            <DialogTrigger>
+                                                <span className="open-button">Open</span>
+                                            </DialogTrigger>
                                             <OpenPost post={post} />
                                         </Dialog>
                                     </div>

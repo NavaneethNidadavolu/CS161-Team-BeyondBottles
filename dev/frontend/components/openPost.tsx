@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useEffect, useState } from "react";
 import { toast } from "./ui/use-toast";
+import './css/dailyFeed.css';
 
 // [
 //     {
@@ -150,7 +151,9 @@ export default function OpenPost({ post }: { post: any }) {
                                         )
                                     })}
                                 <AlertDialog>
-                                    <AlertDialogTrigger>Delete Post</AlertDialogTrigger>
+                                    <AlertDialogTrigger>
+                                        <span className="remove-button">Delete Post</span>
+                                        </AlertDialogTrigger>
                                     <AlertDialogContent>
                                         <AlertDialogHeader>
                                             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -170,7 +173,9 @@ export default function OpenPost({ post }: { post: any }) {
                                                     console.log("Error deleting post");
                                                     toast({ title: "Error occured while deleting post." })
                                                 });
-                                            }} >Continue</AlertDialogAction>
+                                            }} >
+                                                <span className="add-button">Continue</span>
+                                                </AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
                                 </AlertDialog>

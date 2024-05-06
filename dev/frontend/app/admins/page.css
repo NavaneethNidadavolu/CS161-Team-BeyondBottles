@@ -1,0 +1,40 @@
+/* styles/tailwind.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+.remove-button {
+  background-color: transparent;
+  color: #dd4b4b;
+  font-weight: bold;
+  border: 1px solid #dd4b4b;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background-color: #dd4b4b;
+  color: #fff;
+  border-color: transparent;
+}
+  
+
+.add-button {
+  background-color: transparent;
+  color: #04AA6D;
+  font-weight: bold;
+  border: 1px solid #04AA6D;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #04AA6D;
+  color: #fff;
+  border-color: transparent;
+}
+
+
