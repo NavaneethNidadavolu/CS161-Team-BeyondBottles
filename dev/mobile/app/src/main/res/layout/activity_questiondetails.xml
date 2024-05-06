@@ -11,14 +11,12 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_questiondetail"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:titleTextAppearance="@style/Toolbar.TitleText"
-            app:titleTextColor="@color/toolbar_black"
-            app:title=""
-            android:elevation="4dp" />
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="@dimen/action_bar_height"
+            android:layout_height="@dimen/action_bar_height"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_arrow_back_white_24dp" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout

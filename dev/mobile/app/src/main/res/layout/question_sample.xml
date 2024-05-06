@@ -100,7 +100,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/work_sans"
                 android:lineSpacingExtra="2sp"
-                android:longClickable="true"
+                android:clickable="true"
                 android:maxLines="6"
                 android:text="@string/sample_question_description"
                 android:textColor="@color/black"

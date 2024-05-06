@@ -35,7 +35,7 @@ class QuestionDetailActivity : AppCompatActivity() {
     private lateinit var repliesCount: TextView
     private lateinit var textCreatedAt: TextView
     private lateinit var profileImage : ShapeableImageView
-    private lateinit var toolbarQuestionDetail : androidx.appcompat.widget.Toolbar
+    private lateinit var btnBack: ImageView
     private lateinit var btnSend : ImageView
     private lateinit var editTextResponse : TextInputEditText
 
@@ -58,7 +58,7 @@ class QuestionDetailActivity : AppCompatActivity() {
         repliesCount = findViewById(R.id.repliesCount)
         profileImage = findViewById(R.id.ivUserAvatar)
         textCreatedAt = findViewById(R.id.textCreatedAt)
-        toolbarQuestionDetail = findViewById(R.id.toolbar_questiondetail)
+        btnBack = findViewById(R.id.btnBack)
         rvComments = findViewById(R.id.rvComments)
         btnSend = findViewById(R.id.buttonSendResponse)
         editTextResponse = findViewById(R.id.editTextResponse)
@@ -151,10 +151,14 @@ class QuestionDetailActivity : AppCompatActivity() {
 //            networkErrorAnim.isVisible = true
         }
 
-        setSupportActionBar(toolbarQuestionDetail)
-//        setDisplayShowHomeEnabled(toolbarQuestionDetail)
-        toolbarQuestionDetail.setTitle(R.string.empty)
-        toolbarQuestionDetail.setTitleTextColor(resources.getColor(R.color.colorPrimary))
+
+        btnBack.setOnClickListener {
+            onBackPressed() // This will mimic the back button behavior, i.e., finish the current activity and navigate to the previous one
+        }
+//        setSupportActionBar(toolbarQuestionDetail)
+////        setDisplayShowHomeEnabled(toolbarQuestionDetail)
+//        toolbarQuestionDetail.setTitle(R.string.empty)
+//        toolbarQuestionDetail.setTitleTextColor(resources.getColor(R.color.colorPrimary))
         supportActionBar?.apply {
             // show back button on toolbar
             // on back button press, it will navigate to parent activity
