@@ -109,7 +109,7 @@ def get_questions():
                     q.question, 
                     u.username, 
                     COUNT(DISTINCT l.user_id) AS upvotes, 
-                    EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - q.created_at)) / 3600 AS time, 
+                    ROUND(EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - q.created_at)) / 36000, 1) AS time, 
                     COUNT(DISTINCT c.comment) AS comments,
                     EXISTS (SELECT 1 FROM question_likes WHERE question_id = q.id AND user_id = %s) AS isLiked
                 FROM 
@@ -173,7 +173,7 @@ def getcomments():
 
             # Execute the SQL query to retrieve comments
             sql_query = """
-                SELECT c.id, c.comment, u.username, ROUND(EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - c.created_at)) / 36000, 1) AS time
+                SELECT c.id, c.comment, u.username, EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - c.created_at)) / 3600 AS time
                 FROM comments c
                 INNER JOIN users u ON c.user_id = u.id
                 WHERE c.question_id = %s
