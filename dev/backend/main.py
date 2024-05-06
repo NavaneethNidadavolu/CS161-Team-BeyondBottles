@@ -162,50 +162,74 @@ def get_questions():
             return {'message': 'Error fetching questions'}, 500
 
 
-@app.route('/getcomments', methods=['GET'])
-def getcomments():
-    try:
-        if request.method == "GET":
-            questionid = request.args.get('questionid', type=int)
+@app.route('/questions', methods=['GET'])
+def get_questions():
+    if request.method == "GET":
+        try:
+            # Get user ID from request or session, assuming user is authenticated
+            user_id = request.args.get('userid', type=int)  # Modify according to your authentication mechanism
 
             # Get a connection from the connection pool
             connection, cursor = connect_to_db()
 
-            # Execute the SQL query to retrieve comments
+            # Define the SQL query
             sql_query = """
-                SELECT c.id, c.comment, u.username, EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - c.created_at)) / 3600 AS time
-                FROM comments c
-                INNER JOIN users u ON c.user_id = u.id
-                WHERE c.question_id = %s
-                ORDER BY ABS(EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - c.created_at)) / 3600)
+                SELECT 
+                    q.id, 
+                    q.question, 
+                    u.username, 
+                    COUNT(DISTINCT l.user_id) AS upvotes, 
+                    EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - q.created_at)) / 3600 AS time, 
+                    COUNT(DISTINCT c.comment) AS comments,
+                    EXISTS (SELECT 1 FROM question_likes WHERE question_id = q.id AND user_id = %s) AS isLiked
+                FROM 
+                    questions q 
+                INNER JOIN 
+                    users u ON q.user_id = u.id 
+                LEFT JOIN 
+                    comments c ON q.id = c.question_id 
+                LEFT JOIN 
+                    question_likes l ON q.id = l.question_id 
+                GROUP BY 
+                    q.id, q.question, u.username, q.created_at 
+                ORDER BY 
+                    time
             """
-            cursor.execute(sql_query, (questionid,))
+            # Execute the SQL query
+            cursor.execute(sql_query, (user_id,))
+
+            # Fetch all rows from the result set
             data = cursor.fetchall()
-
-            # Process the data
-            json_data = []
-            for d in data:
-                # Convert the absolute value of time to integer
-                time_hours = int(abs(d[3]))
-
-                if time_hours >= 24:
-                    days = str(time_hours // 24)  # Calculate the number of days
-                    time = days + (' day ago' if days == '1' else ' days ago')
-                else:
-                    time = str(time_hours) + ' hours ago'
-
-                json_data.append({'id': d[0], 'comment': d[1], 'username': d[2], 'time': time})
 
             # Close the cursor and connection
             cursor.close()
             connection.close()
 
+            # Process the data
+            json_data = []
+            for d in data:
+                if abs(d[4]) >= 24:
+                    days = str(int(abs(d[4] / 24)))
+                    time = days + (' day ago' if days == '1' else ' days ago')
+                else:
+                    time_hours = round(abs(d[4]), 1)
+                    time = str(time_hours) + (' hour ago' if time_hours == 1 else ' hours ago')
+                json_data.append({
+                    "id": d[0],
+                    "question": d[1],
+                    "username": d[2],
+                    "upvotes": d[3],
+                    "comments": d[5],
+                    "time": time,
+                    "isLiked": d[6]  # Add isLiked column to the JSON
+                })
+
+            # Return the JSON response
             return jsonify(json_data)
 
-    except (Exception, psycopg2.Error) as error:
-        print("Error:", error)
-        return jsonify({'error': 'Internal server error'}), 500
-
+        except (Exception, psycopg2.Error) as error:
+            print(f"Error fetching questions: {error}")
+            return {'message': 'Error fetching questions'}, 500
 
 # @app.route('/getcomments', methods=['GET'])
 # def getcomments():
