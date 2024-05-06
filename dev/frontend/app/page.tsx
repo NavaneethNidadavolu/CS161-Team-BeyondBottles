@@ -77,12 +77,7 @@ export default function Login() {
       console.log(data);
       localStorage.setItem('login', JSON.stringify(data));
       toast({
-        title: "Login Success !",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
+        title: "Login Success !"
       })
       router.push("/dashboard");
     } else {
@@ -90,13 +85,8 @@ export default function Login() {
       console.log(data);
       console.log('Login failed.');
       toast({
-        title: "Login Failed !",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
-      })
+        title: "Login Failed !"
+      });
     }
   }
 
