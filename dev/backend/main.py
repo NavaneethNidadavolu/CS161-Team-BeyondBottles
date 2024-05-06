@@ -91,7 +91,6 @@ def home():
 #         return jsonify(json_data)
 
 
-# Define the /questions route
 @app.route('/questions', methods=['GET'])
 def get_questions():
     if request.method == "GET":
@@ -142,8 +141,8 @@ def get_questions():
                     days = str(int(abs(d[4] / 24)))
                     time = days + (' day ago' if days == '1' else ' days ago')
                 else:
-                    hours = str(abs(d[4]))
-                    time = hours + ' hours ago'
+                    time_hours = round(abs(d[4]), 1)
+                    time = str(time_hours) + (' hour ago' if time_hours == 1 else ' hours ago')
                 json_data.append({
                     "id": d[0],
                     "question": d[1],
