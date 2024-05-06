@@ -46,6 +46,9 @@ class   PostQuestionActivity : AppCompatActivity() {
 
         var questionResponse: Response<List<SuccessModel>>
 
+        btnBack.setOnClickListener {
+            onBackPressed() // This will mimic the back button behavior, i.e., finish the current activity and navigate to the previous one
+        }
         btnPost.setOnClickListener {
             progressBar.isVisible = true
             if (postText.text!!.length > 10) {
