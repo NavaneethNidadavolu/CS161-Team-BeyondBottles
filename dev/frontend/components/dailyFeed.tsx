@@ -52,7 +52,7 @@ export default async function DailyFeed() {
                 {
                     data.length > 0 ? data.map((post: any) => {
                         return (
-                            <Card id={post.id} className="mb-6">
+                            <Card key={post.id} className="mb-6">
                                 <CardHeader>
                                     <CardTitle>{post.username}</CardTitle>
                                     <CardDescription>{post.time}</CardDescription>
