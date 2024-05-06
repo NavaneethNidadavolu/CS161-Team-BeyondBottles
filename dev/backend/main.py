@@ -173,7 +173,7 @@ def getcomments():
 
             # Execute the SQL query to retrieve comments
             sql_query = """
-                SELECT c.id, c.comment, u.username, EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - c.created_at)) / 3600 AS time
+                SELECT c.id, c.comment, u.username, ROUND(EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - c.created_at)) / 36000, 1) AS time
                 FROM comments c
                 INNER JOIN users u ON c.user_id = u.id
                 WHERE c.question_id = %s
