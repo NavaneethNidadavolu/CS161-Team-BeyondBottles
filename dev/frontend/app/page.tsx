@@ -62,7 +62,7 @@ export default function Login() {
     const email = form.getValues('username');
     const password = form.getValues('password');
     
-    const url = `http://127.0.0.1:5001/getadmin?email=${email}&password=${password}`;
+    const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/getadmin?email=${email}&password=${password}`;
 
     console.log(url);
     
