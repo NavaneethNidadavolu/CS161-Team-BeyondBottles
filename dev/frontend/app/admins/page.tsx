@@ -123,7 +123,7 @@ export default function AdminsComponent() {
     });
 
     async function addAdmin(data: z.infer<typeof FormSchema>) {
-        const url = `http://127.0.0.1:5001/addadmin`;
+        const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/addadmin`;
     
         console.log(url);
 
@@ -161,7 +161,7 @@ export default function AdminsComponent() {
     }
 
     const deleteAdmin = async (admin: { username: string, email: string, id: number }) => {
-        const url = `http://127.0.0.1:5001/deleteadmin/${admin.id}`;
+        const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/deleteadmin/${admin.id}`;
         
         const response = await fetch(url, {
             method: 'DELETE',

@@ -101,6 +101,10 @@ export default function DuringRehab() {
                                                                 let response = await data.json();
                                                                 console.log(response);
                                                                 toast({ title: "Blog deleted successfully" });
+                                                                setIsLoading(true);
+                                                                const fetchedData = await getFeed();
+                                                                setData(fetchedData);
+                                                                setIsLoading(false);
                                                             })
                                                             .catch((error) => {
                                                                 console.log("Error deleting Blog");
