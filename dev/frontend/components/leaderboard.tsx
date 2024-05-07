@@ -49,7 +49,7 @@ export default function Leaderboard() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((user) => (
+            {data.map((user: any) => (
               <TableRow key={user.id}>
                 <TableCell>{user.rank}</TableCell>
                 <TableCell className="font-medium">{user.username}</TableCell>

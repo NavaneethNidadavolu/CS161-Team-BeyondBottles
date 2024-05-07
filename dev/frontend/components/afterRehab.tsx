@@ -35,7 +35,7 @@ async function getFeed() {
     return response.json();
 }
 
-async function deleteBlog(blog_id) {
+async function deleteBlog(blog_id: any) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/deleteblog/${blog_id}`, {
         method: 'DELETE',
         headers: {
@@ -68,7 +68,7 @@ export default function AfterRehab() {
                 {isLoading ? (
                     <p>Loading...</p>
                 ) : data.length > 0 ? (
-                    data.map((post) => (
+                    data.map((post: any) => (
                         <Card key={post.id} className="mb-6">
                             <CardHeader>
                                 <CardTitle>{post.content_header}</CardTitle>
