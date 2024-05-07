@@ -38,34 +38,22 @@ export default function Login() {
     },
   });
 
-  useEffect(() => {  
+  useEffect(() => {
     console.log(localStorage.getItem('login'));
     if (localStorage.getItem('login')) {
       router.push("/dashboard");
     }
   }
-  ,[]);
-
-  // function onSubmit(data: z.infer<typeof FormSchema>) {
-  //   toast({
-  //     title: "You submitted the following values:",
-  //     description: (
-  //       <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-  //         <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-  //       </pre>
-  //     ),
-  //   })
-  //   router.push("/dashboard");
-  // }
+    , []);
 
   const onSubmit = async () => {
     const email = form.getValues('username');
     const password = form.getValues('password');
-    
+
     const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/getadmin?email=${email}&password=${password}`;
 
     console.log(url);
-    
+
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -76,10 +64,10 @@ export default function Login() {
       const data = await response.json();
       console.log(data);
       localStorage.setItem('login', JSON.stringify(data));
+      router.push("/dashboard");
       toast({
         title: "Login Success !"
       })
-      router.push("/dashboard");
     } else {
       const data = await response.json();
       console.log(data);
